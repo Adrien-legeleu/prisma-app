@@ -14,9 +14,27 @@ datasource db {
 }
 
 model Task {
-  id        String   @id @default(uuid())
+  id        String       @id @default(uuid())
   content   String
-  creaedAt  DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  completed Boolean  @default(false)
+  creaedAt  DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  completed Boolean      @default(false)
+  // categoryies Categories?
+  categorie Categories[]
+}
+
+model Categories {
+  id      String @id @default(uuid())
+  catName String
+  taskId  String @unique
+  task    Task   @relation(fields: [taskId], references: [id])
+  tags    Tags[]
+}
+
+// #many to many table de jointure
+model Tags {
+  id         String       @id @default(uuid())
+  catName    String
+  taskId     String       @unique
+  categories Categories[]
 }
